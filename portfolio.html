@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Portfolio - Data Science</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1f2937;
+            --secondary: #f9fafb;
+            --accent: #3b82f6;
+            --text: #1f2937;
+            --light-text: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 50;
+            padding: 1rem 2rem;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, #1f2937, #6b7280);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--text);
+        }
+
+        /* Section Hero */
+        .hero {
+            margin-top: 80px;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ffffff, #f9fafb);
+            padding: 2rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .bio {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 600;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+        }
+
+        /* Section Projets */
+        .projects {
+            padding: 4rem 2rem;
+            background: var(--secondary);
+        }
+
+        .projects-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .tag:hover,
+        .tag.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-description {
+            color: var(--light-text);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-tag {
+            font-size: 0.8rem;
+            background: var(--secondary);
+            color: var(--light-text);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Section About */
+        .about {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .skills-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .skill-badge {
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .skill-badge:hover {
+            border-color: var(--accent);
+            background: white;
+        }
+
+        /* Section Contact */
+        .contact {
+            padding: 4rem 2rem;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact h2 {
+            color: white;
+        }
+
+        .contact p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background: #111827;
+            color: #9ca3af;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">Portfolio</div>
+            <ul>
+                <li><a href="#projects">Projets</a></li>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="avatar">YN</div>
+            <h1>Votre Nom</h1>
+            <p class="subtitle">Data Scientist & ML Engineer</p>
+            <p class="bio">
+                Passionné par l'IA et le machine learning. J'aime transformer des données brutes en insights actionables et créer des modèles qui font la différence.
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">Voir mes projets</a>
+                <a href="mailto:votre.email@example.com" class="btn btn-secondary">Me contacter</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="projects-content">
+            <h2>Mes Projets</h2>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher un projet..." />
+            </div>
+
+            <div class="tags" id="tagsContainer"></div>
+
+            <div class="projects-grid" id="projectsGrid"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-content">
+            <div>
+                <h2>À Propos</h2>
+                <p>
+                    Bienvenue sur mon portfolio ! Je suis un passionné de data science et machine learning avec plusieurs années d'expérience dans l'analyse de données complexes et la création de modèles prédictifs.
+                </p>
+                <p>
+                    Chaque projet ci-dessus représente une exploration profonde d'un problème, avec documentation complète dans les notebooks Jupyter. N'hésitez pas à explorer le code et à me contacter !
+                </p>
+            </div>
+            <div>
+                <h3 style="margin-bottom: 1.5rem;">Compétences</h3>
+                <div class="skills-section" id="skillsSection"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-content">
+            <h2>Parlons de vos projets</h2>
+            <p>
+                Vous avez une idée intéressante ou une opportunité de collaboration ? Je serais ravi d'en discuter.
+            </p>
+            <a href="mailto:votre.email@example.com" class="btn btn-primary">Me contacter par email</a>
+            
+            <div class="social-links">
+                <a href="https://github.com/votreusername" class="social-link">🐙</a>
+                <a href="https://linkedin.com/in/votreusername" class="social-link">💼</a>
+                <a href="mailto:votre.email@example.com" class="social-link">✉️</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Votre Nom. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // ============================================
+        // 🎯 CONFIGURATION - MODIFIEZ ICI
+        // ============================================
+        
+        const config = {
+            name: "Marlhon NTCHORERE",
+            skills: [
+                "Python", "Machine Learning", "Data Analysis",
+                "TensorFlow", "Pandas", "SQL", "Jupyter Notebooks",
+                "Data Visualization", "NLP", "Deep Learning"
+            ]
+        };
+
+        const projects = [
+            {
+                id: 1,
+                title: "Automatisation de génération de rapports cliniques",
+                description: "Un modèle IA complet pour automatiser la génération de rapports cliniques à partir de données médicales.",
+                tags: ["LLM", "RAG", "Healthcare"],
+                image: "https://i.pinimg.com/1200x/b1/6e/49/b16e491d53f4f78c29b4c1bf52569ed1.jpg",
+                notebookUrl: "https://github.com/votreusername/notebook.ipynb",
+                
+            },
+            {
+                id: 2,
+                title: "Modèle de reconnaissance de tumeurs de la peau",
+                description: "Un projet de classification d'images médicales pour la reconnaissance de tumeurs de la peau à partir de photos cliniques.",
+                tags: ["Computer Vision", "Deep Learning", "Medical Imaging"],
+                image: "https://i.pinimg.com/736x/50/7a/62/507a62c16c3515b42fd5c24b8dd870b2.jpg",
+                notebookUrl: "https://github.com/votreusername/notebook.ipynb",
+                
+            },
+            {
+                id: 3,
+                title: "Modèle IA de classifications de CV par rapport à une offre d'emploi",
+                description: "Un projet de classification de CV utilisant un llm pour faire correspondre les CV aux offres d'emploi à l'aide de détails pré-définis par le recuruteur.",
+                tags: ["LLM", "RAG", "Recruitment"],
+                image: "https://i.pinimg.com/1200x/cc/f1/fe/ccf1feb97873e05ea472be1460d29ab6.jpg",
+                notebookUrl: "https://github.com/votreusername/notebook.ipynb",
+                
+            }
+        ];
+
+        // ============================================
+        // 🚀 LOGIQUE D'AFFICHAGE
+        // ============================================
+
+        function renderProjects(projectsToShow) {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = projectsToShow.map(project => `
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="${project.image}" alt="${project.title}" />
+                    </div>
+                    <div class="project-info">
+                        <div class="project-title">${project.title}</div>
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-tags">
+                            ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
+                        </div>
+                        <a href="${project.notebookUrl}" target="_blank" class="project-link">
+                            Voir le notebook →
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTags() {
+            const tagsContainer = document.getElementById('tagsContainer');
+            const allTags = Array.from(new Set(projects.flatMap(p => p.tags)));
+            
+            tagsContainer.innerHTML = allTags.map(tag => `
+                <button class="tag" data-tag="${tag}">${tag}</button>
+            `).join('');
+
+            tagsContainer.querySelectorAll('.tag').forEach(button => {
+                button.addEventListener('click', filterProjects);
+            });
+        }
+
+        function renderSkills() {
+            const skillsSection = document.getElementById('skillsSection');
+            skillsSection.innerHTML = config.skills
+                .map(skill => `<div class="skill-badge">${skill}</div>`)
+                .join('');
+        }
+
+        function filterProjects() {
+            const selectedTags = Array.from(document.querySelectorAll('.tag.active')).map(b => b.dataset.tag);
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+            let filtered = projects;
+
+            if (selectedTags.length > 0) {
+                filtered = filtered.filter(p => selectedTags.some(tag => p.tags.includes(tag)));
+            }
+
+            if (searchQuery) {
+                filtered = filtered.filter(p => 
+                    p.title.toLowerCase().includes(searchQuery) ||
+                    p.description.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            renderProjects(filtered);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterProjects);
+
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tag')) {
+                e.target.classList.toggle('active');
+                filterProjects();
+            }
+        });
+
+        // Init
+        document.querySelector('h1').textContent = config.name;
+        renderProjects(projects);
+        renderTags();
+        renderSkills();
+    </script>
+</body>
+</html>
